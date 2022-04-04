@@ -17,29 +17,6 @@ function App() {
         </div>
       </div>
 
-      <div className="popup popup_delete">
-        <div className="popup__container">
-          <button className="popup__close" type="button" aria-label="Закрыть"></button>
-          <h3 className="popup__title">Вы уверены?</h3>
-          <button className="popup__submit delete-button">Да</button>
-        </div>
-      </div>
-
-      <div className="popup popup_avatar">
-        <div className="popup__container">
-          <button className="popup__close" type="button" aria-label="Закрыть"></button>
-          <h3 className="popup__title">Обновить аватар</h3>
-          <form className="popup__form" action="#" name="avatar" novalidate>
-            <label className="popup__form-label">
-              <input className="popup__input popup__input_value_link" id="link-avatar" type="url" name="avatar"
-                placeholder="Ссылка на аватар" required />
-              <span className="popup__input-error link-avatar-error"></span>
-            </label>
-            <button className="popup__submit" type="submit">Сохранить</button>
-          </form>
-        </div>
-      </div>
-
       {/* Шаблон карточки */}
       <template id="card">
         <article className="elements__element element">
