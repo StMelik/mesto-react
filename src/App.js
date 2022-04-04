@@ -1,11 +1,11 @@
-// import logo from './logo.svg';
-import './App.css';
+import logo from './images/logo.svg';
+// import './App.css';
 
 function App() {
   return (
     <div className="page__content">
       <header className="header">
-        <img className="header__logo" src="images/logo.svg" alt="Логотип" />
+        <img className="header__logo" src={logo} alt="Логотип" />
       </header>
 
       <main className="main">
