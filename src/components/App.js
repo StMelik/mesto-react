@@ -67,13 +67,13 @@ function App() {
           <>
             <label className="popup__form-label">
               <input className="popup__input popup__input_value_name" id="name-input" type="text" name="name"
-                required minlength="2" maxlength="40" autocomplete="off"
+                required minLength="2" maxLength="40" autoComplete="off"
                 placeholder="Ваше имя" />
               <span className="popup__input-error name-input-error"></span>
             </label>
             <label className="popup__form-label">
               <input className="popup__input popup__input_value_about" id="about-input" type="text"
-                name="about" required minlength="2" maxlength="200" autocomplete="off"
+                name="about" required minLength="2" maxLength="200" autoComplete="off"
                 placeholder="Пару слов о себе" />
               <span className="popup__input-error about-input-error"></span>
             </label>
@@ -93,7 +93,7 @@ function App() {
           <>
             <label className="popup__form-label">
               <input className="popup__input popup__input_value_name" id="title-input" type="text" name="name"
-                placeholder="Название" required minlength="2" maxlength="30" autocomplete="off" />
+                placeholder="Название" required minLength="2" maxLength="30" autoComplete="off" />
               <span className="popup__input-error title-input-error"></span>
             </label>
             <label className="popup__form-label">
