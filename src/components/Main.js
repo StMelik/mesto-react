@@ -1,7 +1,7 @@
 import React from "react"
 import Api from "../utils/Api"
 import Card from "./Card"
-import { optionsApi } from "../utils/constants"
+import { optionsApi } from "../utils/optionsApi"
 
 
 function Main(props) {
