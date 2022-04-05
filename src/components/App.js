@@ -4,14 +4,17 @@ import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
 import PopupWithForm from './PopupWithForm';
+import ImagePopup from './ImagePopup'
 
 function App() {
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false)
 
-  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState()
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false)
 
-  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState()
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false)
 
-  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState()
+  const [selectedCard, setSelectedCard] = React.useState({ isOpen: false })
+
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true)
@@ -29,6 +32,14 @@ function App() {
     setIsEditProfilePopupOpen(false)
     setIsAddPlacePopupOpen(false)
     setIsEditAvatarPopupOpen(false)
+    setSelectedCard({ isOpen: false })
+  }
+
+  function handleCardClick(card) {
+    setSelectedCard({
+      isOpen: true,
+      ...card
+    })
   }
 
   return (
@@ -38,6 +49,7 @@ function App() {
         onEditProfile={handleEditProfileClick}
         onAddPlace={handleAddPlaceClick}
         onEditAvatar={handleEditAvatarClick}
+        onCardClick={handleCardClick}
       />
       <Footer />
 
@@ -107,6 +119,9 @@ function App() {
         isOpen={isAddPlacePopupOpen}
         onClose={closeAllPopups}
       />
+
+      {/* Большая картинка */}
+      <ImagePopup card={selectedCard} onClose={closeAllPopups} />
     </div>
   );
 }
