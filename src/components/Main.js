@@ -1,5 +1,6 @@
 import React from "react"
 import Api from "../utils/Api"
+import Card from "./Card"
 import { optionsApi } from "../utils/constants"
 
 
@@ -8,18 +9,26 @@ function Main(props) {
     const [userName, setUserName] = React.useState('Загрузка ...')
     const [userDescription, setUserDescription] = React.useState('Загрузка ...')
     const [userAvatar, setUserAvatar] = React.useState("images/no-avatar.png")
+    const [cards, setCards] = React.useState([])
 
     const api = new Api(optionsApi)
 
+
+    React.useEffect(() => {
+        api.getInitialCards()
+            .then(cards => {
+                setCards(cards)
+            })
+    }, [])
+
     React.useEffect(() => {
         api.getUserInfo()
-            .then(res => {
-                // console.log(res);
-                setUserName(res.name)
-                setUserDescription(res.about)
-                setUserAvatar(res.avatar)
+            .then(user => {
+                setUserName(user.name)
+                setUserDescription(user.about)
+                setUserAvatar(user.avatar)
             })
-    })
+    }, [])
 
     return (
         <main className="main">
@@ -36,6 +45,11 @@ function Main(props) {
             </section>
 
             <section className="elements">
+                {
+                    cards.map(card => (
+                        <Card card={card} />
+                    ))
+                }
             </section>
         </main>
     )
