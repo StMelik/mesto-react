@@ -1,8 +1,10 @@
 import React from "react"
-import { api } from "../utils/api"
+import { optionsApi } from "../utils/optionsApi"
+import Api from "../utils/Api"
 import Card from "./Card"
 import noAvatar from '../images/no-avatar.png'
 
+const api = new Api(optionsApi)
 
 function Main(props) {
     const [userName, setUserName] = React.useState('Загрузка ...')
