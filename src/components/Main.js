@@ -1,18 +1,13 @@
 import React from "react"
-import Api from "../utils/Api"
+import { api } from "../utils/api"
 import Card from "./Card"
-import { optionsApi } from "../utils/constants"
-
+import noAvatar from '../images/no-avatar.png'
 
 function Main(props) {
-
     const [userName, setUserName] = React.useState('Загрузка ...')
     const [userDescription, setUserDescription] = React.useState('Загрузка ...')
-    const [userAvatar, setUserAvatar] = React.useState("images/no-avatar.png")
+    const [userAvatar, setUserAvatar] = React.useState(noAvatar)
     const [cards, setCards] = React.useState([])
-
-    const api = new Api(optionsApi)
-
 
     React.useEffect(() => {
         api.getInitialCards()

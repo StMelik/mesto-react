@@ -1,4 +1,12 @@
-export default class Api {
+const optionsApi = {
+    baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-39/',
+    headers: {
+        authorization: 'b287dd23-5596-4869-8607-85a6badb8cad',
+        'Content-Type': 'application/json'
+    }
+}
+
+class Api {
     constructor(options) {
         this._baseUrl = options.baseUrl
         this._headers = options.headers
@@ -68,3 +76,5 @@ export default class Api {
         return this._fetch('users/me/avatar', 'PATCH', addBody)
     }
 }
+
+export const api = new Api(optionsApi)
