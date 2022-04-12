@@ -8,6 +8,7 @@ import { optionsApi } from "../utils/optionsApi"
 import Api from "../utils/Api"
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import EditProfilePopup from './EditProfilePopup';
+import EditAvatarPopup from './EditAvatarPopup';
 
 const api = new Api(optionsApi)
 
@@ -63,18 +64,25 @@ function App() {
       })
   }
 
+  function handleUpdateAvatar(data) {
+    api.editUserAvatar(data)
+      .then(res => {
+        setCurrentUser(res)
+        closeAllPopups()
+      })
+
+  }
+
   return (
     <div className="page__content">
       <CurrentUserContext.Provider value={currentUser}>
         <Header />
-
         <Main
           onEditProfile={handleEditProfileClick}
           onAddPlace={handleAddPlaceClick}
           onEditAvatar={handleEditAvatarClick}
           onCardClick={handleCardClick}
         />
-
         <Footer />
 
         {/* Редактировать профиль */}
@@ -84,22 +92,12 @@ function App() {
           onUpdateUser={handleUpdateUser}
         />
 
-
-
         {/* Аватар */}
-        <PopupWithForm
-          name="avatar"
-          title="Обновить аватар"
-          buttonText="Сохранить"
+        <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
-        >
-          <label className="popup__form-label">
-            <input className="popup__input popup__input_value_link" id="link-avatar" type="url" name="avatar"
-              placeholder="Ссылка на аватар" required />
-            <span className="popup__input-error link-avatar-error"></span>
-          </label>
-        </PopupWithForm>
+          onUpdateAvatar={handleUpdateAvatar}
+        />
 
         {/* Новое место */}
         <PopupWithForm
