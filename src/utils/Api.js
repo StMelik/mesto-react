@@ -19,6 +19,10 @@ export default class Api {
             })
     }
 
+    _likeCard(cardId, method) {
+        return this._fetch(`cards/${cardId}/likes`, method)
+    }
+
     getUserInfo() {
         return this._fetch('users/me', 'GET')
     }
@@ -51,14 +55,6 @@ export default class Api {
         return this._fetch(`cards/${cardId}`, 'DELETE')
     }
 
-    addLikeCard(cardId) {
-        return this._fetch(`cards/${cardId}/likes`, 'PUT')
-    }
-
-    deleteLikeCard(cardId) {
-        return this._fetch(`cards/${cardId}/likes`, 'DELETE')
-    }
-
     editUserAvatar({ avatar }) {
         const addBody = () => {
             return JSON.stringify({
@@ -66,5 +62,11 @@ export default class Api {
             })
         }
         return this._fetch('users/me/avatar', 'PATCH', addBody)
+    }
+
+    changeLikeCardStatus(cardId, isLiked) {
+        return isLiked ?
+            this._likeCard(cardId, 'PUT') :
+            this._likeCard(cardId, 'DELETE')
     }
 }
