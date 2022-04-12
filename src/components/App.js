@@ -7,6 +7,7 @@ import ImagePopup from './ImagePopup'
 import { optionsApi } from "../utils/optionsApi"
 import Api from "../utils/Api"
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import EditProfilePopup from './EditProfilePopup';
 
 const api = new Api(optionsApi)
 
@@ -54,78 +55,75 @@ function App() {
     })
   }
 
+  function handleUpdateUser(data) {
+    api.editUserInfo(data)
+      .then(res => {
+        setCurrentUser(res)
+        closeAllPopups()
+      })
+  }
+
   return (
     <div className="page__content">
-      <Header />
       <CurrentUserContext.Provider value={currentUser}>
+        <Header />
+
         <Main
           onEditProfile={handleEditProfileClick}
           onAddPlace={handleAddPlaceClick}
           onEditAvatar={handleEditAvatarClick}
           onCardClick={handleCardClick}
         />
+
+        <Footer />
+
+        {/* Редактировать профиль */}
+        <EditProfilePopup
+          isOpen={isEditProfilePopupOpen}
+          onClose={closeAllPopups}
+          onUpdateUser={handleUpdateUser}
+        />
+
+
+
+        {/* Аватар */}
+        <PopupWithForm
+          name="avatar"
+          title="Обновить аватар"
+          buttonText="Сохранить"
+          isOpen={isEditAvatarPopupOpen}
+          onClose={closeAllPopups}
+        >
+          <label className="popup__form-label">
+            <input className="popup__input popup__input_value_link" id="link-avatar" type="url" name="avatar"
+              placeholder="Ссылка на аватар" required />
+            <span className="popup__input-error link-avatar-error"></span>
+          </label>
+        </PopupWithForm>
+
+        {/* Новое место */}
+        <PopupWithForm
+          name="add"
+          title="Новое место"
+          buttonText="Создать"
+          isOpen={isAddPlacePopupOpen}
+          onClose={closeAllPopups}
+        >
+          <label className="popup__form-label">
+            <input className="popup__input popup__input_value_name" id="title-input" type="text" name="name"
+              placeholder="Название" required minLength="2" maxLength="30" autoComplete="off" />
+            <span className="popup__input-error title-input-error"></span>
+          </label>
+          <label className="popup__form-label">
+            <input className="popup__input popup__input_value_link" id="link-input" type="url" name="link"
+              placeholder="Ссылка на картинку" required />
+            <span className="popup__input-error link-input-error"></span>
+          </label>
+        </PopupWithForm>
+
+        {/* Большая картинка */}
+        <ImagePopup card={selectedCard} onClose={closeAllPopups} />
       </CurrentUserContext.Provider>
-      <Footer />
-
-      {/* Аватар */}
-      <PopupWithForm
-        name="avatar"
-        title="Обновить аватар"
-        buttonText="Сохранить"
-        isOpen={isEditAvatarPopupOpen}
-        onClose={closeAllPopups}
-      >
-        <label className="popup__form-label">
-          <input className="popup__input popup__input_value_link" id="link-avatar" type="url" name="avatar"
-            placeholder="Ссылка на аватар" required />
-          <span className="popup__input-error link-avatar-error"></span>
-        </label>
-      </PopupWithForm>
-
-      {/* Редактировать профиль */}
-      <PopupWithForm
-        name="edit"
-        title="Редактировать профиль"
-        buttonText="Сохранить"
-        isOpen={isEditProfilePopupOpen}
-        onClose={closeAllPopups}
-      >
-        <label className="popup__form-label">
-          <input className="popup__input popup__input_value_name" id="name-input" type="text" name="name"
-            required minLength="2" maxLength="40" autoComplete="off"
-            placeholder="Ваше имя" />
-          <span className="popup__input-error name-input-error"></span>
-        </label>
-        <label className="popup__form-label">
-          <input className="popup__input popup__input_value_about" id="about-input" type="text"
-            name="about" required minLength="2" maxLength="200" autoComplete="off"
-            placeholder="Пару слов о себе" />
-          <span className="popup__input-error about-input-error"></span>
-        </label>
-      </PopupWithForm>
-
-      {/* Новое место */}
-      <PopupWithForm
-        name="add"
-        title="Новое место"
-        buttonText="Создать"
-        isOpen={isAddPlacePopupOpen}
-        onClose={closeAllPopups}
-      >
-        <label className="popup__form-label">
-          <input className="popup__input popup__input_value_name" id="title-input" type="text" name="name"
-            placeholder="Название" required minLength="2" maxLength="30" autoComplete="off" />
-          <span className="popup__input-error title-input-error"></span>
-        </label>
-        <label className="popup__form-label">
-          <input className="popup__input popup__input_value_link" id="link-input" type="url" name="link"
-            placeholder="Ссылка на картинку" required />
-          <span className="popup__input-error link-input-error"></span>
-        </label>
-      </PopupWithForm>
-
-      {/* Большая картинка */}
-      <ImagePopup card={selectedCard} onClose={closeAllPopups} />
     </div >
   );
 }
