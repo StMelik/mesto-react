@@ -9,6 +9,7 @@ import Api from "../utils/Api"
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
+import AddPlacePopup from './AddPlacePopup';
 
 const api = new Api(optionsApi)
 
@@ -70,7 +71,39 @@ function App() {
         setCurrentUser(res)
         closeAllPopups()
       })
+  }
 
+  const [cards, setCards] = React.useState([])
+
+  React.useEffect(() => {
+    api.getInitialCards()
+      .then(cards => {
+        setCards(cards)
+      })
+  }, [])
+
+  function handleCardLike(card) {
+    const isLiked = card.likes.some(i => i._id === currentUser._id);
+
+    api.changeLikeCardStatus(card._id, !isLiked)
+      .then(newCard => {
+        setCards(state => state.map(c => c._id === card._id ? newCard : c));
+      });
+  }
+
+  function handleCardDelete(card) {
+    api.deleteCard(card._id)
+      .then(() => {
+        setCards(cards.filter(c => c._id !== card._id))
+      });
+  }
+
+  function handleAddPlaceSubmit(data) {
+    api.addCard(data)
+      .then(newCard => {
+        setCards([newCard, ...cards]);
+        closeAllPopups()
+      })
   }
 
   return (
@@ -82,6 +115,9 @@ function App() {
           onAddPlace={handleAddPlaceClick}
           onEditAvatar={handleEditAvatarClick}
           onCardClick={handleCardClick}
+          cards={cards}
+          onCardLike={handleCardLike}
+          onCardDelete={handleCardDelete}
         />
         <Footer />
 
@@ -100,24 +136,11 @@ function App() {
         />
 
         {/* Новое место */}
-        <PopupWithForm
-          name="add"
-          title="Новое место"
-          buttonText="Создать"
+        <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
-        >
-          <label className="popup__form-label">
-            <input className="popup__input popup__input_value_name" id="title-input" type="text" name="name"
-              placeholder="Название" required minLength="2" maxLength="30" autoComplete="off" />
-            <span className="popup__input-error title-input-error"></span>
-          </label>
-          <label className="popup__form-label">
-            <input className="popup__input popup__input_value_link" id="link-input" type="url" name="link"
-              placeholder="Ссылка на картинку" required />
-            <span className="popup__input-error link-input-error"></span>
-          </label>
-        </PopupWithForm>
+          onAddPlace={handleAddPlaceSubmit}
+        />
 
         {/* Большая картинка */}
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
