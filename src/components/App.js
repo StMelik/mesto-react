@@ -4,6 +4,11 @@ import Main from "./Main";
 import Footer from "./Footer";
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup'
+import { optionsApi } from "../utils/optionsApi"
+import Api from "../utils/Api"
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
+
+const api = new Api(optionsApi)
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false)
@@ -14,6 +19,14 @@ function App() {
 
   const [selectedCard, setSelectedCard] = React.useState({ isOpen: false })
 
+  const [currentUser, setCurrentUser] = React.useState({})
+
+  React.useEffect(() => {
+    api.getUserInfo()
+      .then(res => {
+        setCurrentUser(res)
+      })
+  }, [])
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true)
@@ -44,12 +57,14 @@ function App() {
   return (
     <div className="page__content">
       <Header />
-      <Main
-        onEditProfile={handleEditProfileClick}
-        onAddPlace={handleAddPlaceClick}
-        onEditAvatar={handleEditAvatarClick}
-        onCardClick={handleCardClick}
-      />
+      <CurrentUserContext.Provider value={currentUser}>
+        <Main
+          onEditProfile={handleEditProfileClick}
+          onAddPlace={handleAddPlaceClick}
+          onEditAvatar={handleEditAvatarClick}
+          onCardClick={handleCardClick}
+        />
+      </CurrentUserContext.Provider>
       <Footer />
 
       {/* Аватар */}
