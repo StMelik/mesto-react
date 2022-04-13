@@ -1,29 +1,29 @@
 {
   "files": {
-    "main.css": "/StMelik/mesto-react/static/css/main.11e22f4d.css",
-    "main.js": "/StMelik/mesto-react/static/js/main.9cb159c7.js",
-    "static/js/787.5530211c.chunk.js": "/StMelik/mesto-react/static/js/787.5530211c.chunk.js",
-    "static/media/Inter-Medium.woff": "/StMelik/mesto-react/static/media/Inter-Medium.9053572c46aeb4b16caa.woff",
-    "static/media/Inter-Black.woff": "/StMelik/mesto-react/static/media/Inter-Black.c6938660eec019fefd68.woff",
-    "static/media/Inter-Regular.woff": "/StMelik/mesto-react/static/media/Inter-Regular.8c206db99195777c6769.woff",
-    "static/media/Inter-Medium.woff2": "/StMelik/mesto-react/static/media/Inter-Medium.293fd13dbca5a3e450ef.woff2",
-    "static/media/Inter-Black.woff2": "/StMelik/mesto-react/static/media/Inter-Black.15ca31c0a2a68f76d2d1.woff2",
-    "static/media/Inter-Regular.woff2": "/StMelik/mesto-react/static/media/Inter-Regular.c8ba52b05a9ef10f4758.woff2",
-    "static/media/logo.svg": "/StMelik/mesto-react/static/media/logo.f0b0954e6be8f5cfdd006a3da6d56a07.svg",
-    "index.html": "/StMelik/mesto-react/index.html",
-    "static/media/hearth.svg": "/StMelik/mesto-react/static/media/hearth.749bf9621301c85674c8.svg",
-    "static/media/delete-btn.svg": "/StMelik/mesto-react/static/media/delete-btn.f3213998572cc3338d94.svg",
-    "static/media/hearth-active.svg": "/StMelik/mesto-react/static/media/hearth-active.9a7d0ca7942d338b26bf.svg",
-    "static/media/edit-btn.svg": "/StMelik/mesto-react/static/media/edit-btn.f1c3d30982a7b54c137b.svg",
-    "static/media/edit-avatar-icon.svg": "/StMelik/mesto-react/static/media/edit-avatar-icon.ae1a976ddb506239e9f0.svg",
-    "static/media/close-btn.svg": "/StMelik/mesto-react/static/media/close-btn.aad249afa835e3b09a34.svg",
-    "static/media/add-btn.svg": "/StMelik/mesto-react/static/media/add-btn.bbc35d0c74a6c0e3d4b7.svg",
-    "main.11e22f4d.css.map": "/StMelik/mesto-react/static/css/main.11e22f4d.css.map",
-    "main.9cb159c7.js.map": "/StMelik/mesto-react/static/js/main.9cb159c7.js.map",
-    "787.5530211c.chunk.js.map": "/StMelik/mesto-react/static/js/787.5530211c.chunk.js.map"
+    "main.css": "/mesto-react/static/css/main.41dcab60.css",
+    "main.js": "/mesto-react/static/js/main.e1c8b1d6.js",
+    "static/js/787.5530211c.chunk.js": "/mesto-react/static/js/787.5530211c.chunk.js",
+    "static/media/Inter-Medium.woff": "/mesto-react/static/media/Inter-Medium.9053572c46aeb4b16caa.woff",
+    "static/media/Inter-Black.woff": "/mesto-react/static/media/Inter-Black.c6938660eec019fefd68.woff",
+    "static/media/Inter-Regular.woff": "/mesto-react/static/media/Inter-Regular.8c206db99195777c6769.woff",
+    "static/media/Inter-Medium.woff2": "/mesto-react/static/media/Inter-Medium.293fd13dbca5a3e450ef.woff2",
+    "static/media/Inter-Black.woff2": "/mesto-react/static/media/Inter-Black.15ca31c0a2a68f76d2d1.woff2",
+    "static/media/Inter-Regular.woff2": "/mesto-react/static/media/Inter-Regular.c8ba52b05a9ef10f4758.woff2",
+    "static/media/logo.svg": "/mesto-react/static/media/logo.f0b0954e6be8f5cfdd006a3da6d56a07.svg",
+    "index.html": "/mesto-react/index.html",
+    "static/media/hearth.svg": "/mesto-react/static/media/hearth.749bf9621301c85674c8.svg",
+    "static/media/delete-btn.svg": "/mesto-react/static/media/delete-btn.f3213998572cc3338d94.svg",
+    "static/media/hearth-active.svg": "/mesto-react/static/media/hearth-active.9a7d0ca7942d338b26bf.svg",
+    "static/media/edit-btn.svg": "/mesto-react/static/media/edit-btn.f1c3d30982a7b54c137b.svg",
+    "static/media/edit-avatar-icon.svg": "/mesto-react/static/media/edit-avatar-icon.ae1a976ddb506239e9f0.svg",
+    "static/media/close-btn.svg": "/mesto-react/static/media/close-btn.aad249afa835e3b09a34.svg",
+    "static/media/add-btn.svg": "/mesto-react/static/media/add-btn.bbc35d0c74a6c0e3d4b7.svg",
+    "main.41dcab60.css.map": "/mesto-react/static/css/main.41dcab60.css.map",
+    "main.e1c8b1d6.js.map": "/mesto-react/static/js/main.e1c8b1d6.js.map",
+    "787.5530211c.chunk.js.map": "/mesto-react/static/js/787.5530211c.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.11e22f4d.css",
-    "static/js/main.9cb159c7.js"
+    "static/css/main.41dcab60.css",
+    "static/js/main.e1c8b1d6.js"
   ]
 }
