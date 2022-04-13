@@ -11,6 +11,7 @@ import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import ConfirmDeletePopup from './ComfirmDeletePopup';
+import Preloader from './Preloader';
 
 const api = new Api(optionsApi)
 
@@ -24,19 +25,14 @@ function App() {
   const [selectedCard, setSelectedCard] = React.useState({ isOpen: false })
   const [currentUser, setCurrentUser] = React.useState({})
   const [cards, setCards] = React.useState([])
-
+  const [isLoading, setIsLoading] = React.useState(true)
 
   React.useEffect(() => {
-    api.getUserInfo()
+    Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then(res => {
-        setCurrentUser(res)
-      })
-  }, [])
-
-  React.useEffect(() => {
-    api.getInitialCards()
-      .then(cards => {
-        setCards(cards)
+        setCurrentUser(res[0])
+        setCards(res[1])
+        setIsLoading(false)
       })
   }, [])
 
@@ -122,15 +118,18 @@ function App() {
     <div className="page__content">
       <CurrentUserContext.Provider value={currentUser}>
         <Header />
-        <Main
-          onEditProfile={handleEditProfileClick}
-          onAddPlace={handleAddPlaceClick}
-          onEditAvatar={handleEditAvatarClick}
-          onCardClick={handleCardClick}
-          cards={cards}
-          onCardLike={handleCardLike}
-          onCardDelete={handleComfirmDeleteClick}
-        />
+        {isLoading ?
+          <Preloader /> :
+          <Main
+            onEditProfile={handleEditProfileClick}
+            onAddPlace={handleAddPlaceClick}
+            onEditAvatar={handleEditAvatarClick}
+            onCardClick={handleCardClick}
+            cards={cards}
+            onCardLike={handleCardLike}
+            onCardDelete={handleComfirmDeleteClick}
+          />
+        }
         <Footer />
 
         {/* Редактировать профиль */}
