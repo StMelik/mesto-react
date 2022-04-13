@@ -15,12 +15,21 @@ import Preloader from './Preloader';
 
 const api = new Api(optionsApi)
 
+const defaultPopupsLoader = {
+  editProfile: false,
+  editAvatar: false,
+  addCard: false,
+  deleteCard: false
+}
+
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false)
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false)
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false)
   const [isComfirmDeletePopupOpen, setIsComfirmDeletePopupOpen] = React.useState(false)
   const [cardId, setCardId] = React.useState('')
+
+  const [popupsLoader, setPopupsLoader] = React.useState(defaultPopupsLoader)
 
   const [selectedCard, setSelectedCard] = React.useState({ isOpen: false })
   const [currentUser, setCurrentUser] = React.useState({})
@@ -34,6 +43,7 @@ function App() {
         setCards(res[1])
         setIsLoading(false)
       })
+      .catch(err => console.log("Не удалось загрузить страницу:", err))
   }, [])
 
   function handleEditAvatarClick() {
@@ -69,19 +79,33 @@ function App() {
   }
 
   function handleUpdateUser(data) {
+    setPopupsLoader({
+      ...popupsLoader,
+      editProfile: true
+    });
+
     api.editUserInfo(data)
       .then(res => {
         setCurrentUser(res)
         closeAllPopups()
       })
+      .catch(err => console.log("Не удалось изменить данные профиля:", err))
+      .finally(() => setPopupsLoader(defaultPopupsLoader))
   }
 
   function handleUpdateAvatar(data) {
+    setPopupsLoader({
+      ...popupsLoader,
+      editAvatar: true
+    });
+
     api.editUserAvatar(data)
       .then(res => {
         setCurrentUser(res)
         closeAllPopups()
       })
+      .catch(err => console.log("Не удалось сменить аватар:", err))
+      .finally(() => setPopupsLoader(defaultPopupsLoader))
   }
 
   function handleCardLike(card) {
@@ -90,28 +114,43 @@ function App() {
     api.changeLikeCardStatus(card._id, !isLiked)
       .then(newCard => {
         setCards(state => state.map(c => c._id === card._id ? newCard : c));
-      });
+      })
+      .catch(err => console.log("Не удалось изменить лайк:", err))
   }
 
 
   //---------------------------------
 
   function handleCardDelete() {
+    setPopupsLoader({
+      ...popupsLoader,
+      deleteCard: true
+    });
+
     api.deleteCard(cardId)
       .then(() => {
         setCards(cards.filter(c => c._id !== cardId))
         closeAllPopups()
-      });
+      })
+      .catch(err => console.log("Не удалось удалить карточку:", err))
+      .finally(() => setPopupsLoader(defaultPopupsLoader))
   }
 
   //---------------------------------
 
   function handleAddPlaceSubmit(data) {
+    setPopupsLoader({
+      ...popupsLoader,
+      addCard: true
+    });
+
     api.addCard(data)
       .then(newCard => {
         setCards([newCard, ...cards]);
         closeAllPopups()
       })
+      .catch(err => console.log("Не удалось добавить карточку:", err))
+      .finally(() => setPopupsLoader(defaultPopupsLoader))
   }
 
   return (
@@ -137,6 +176,7 @@ function App() {
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser}
+          loader={popupsLoader.editProfile}
         />
 
         {/* Аватар */}
@@ -144,6 +184,7 @@ function App() {
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
+          loader={popupsLoader.editAvatar}
         />
 
         {/* Новое место */}
@@ -151,6 +192,7 @@ function App() {
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
           onAddPlace={handleAddPlaceSubmit}
+          loader={popupsLoader.addCard}
         />
 
         {/* Подтверждение удаления */}
@@ -158,6 +200,7 @@ function App() {
           isOpen={isComfirmDeletePopupOpen}
           onClose={closeAllPopups}
           onDelete={handleCardDelete}
+          loader={popupsLoader.deleteCard}
         />
 
         {/* Большая картинка */}

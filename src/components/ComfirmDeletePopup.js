@@ -11,7 +11,7 @@ function ConfirmDeletePopup(props) {
         <PopupWithForm
             name="delete"
             title="Вы уверены?"
-            buttonText="Да"
+            buttonText={props.loader ? "Удаление..." : "Да"}
             isOpen={props.isOpen}
             onClose={props.onClose}
             onSubmit={handleSubmit}
