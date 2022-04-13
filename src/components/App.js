@@ -2,11 +2,10 @@ import React from 'react'
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
-import PopupWithForm from './PopupWithForm';
-import ImagePopup from './ImagePopup'
-import { optionsApi } from "../utils/optionsApi"
 import Api from "../utils/Api"
+import { optionsApi } from "../utils/optionsApi"
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import ImagePopup from './ImagePopup'
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
@@ -23,19 +22,25 @@ const defaultPopupsLoader = {
 }
 
 function App() {
+  // Состояние попапов
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false)
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false)
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false)
   const [isComfirmDeletePopupOpen, setIsComfirmDeletePopupOpen] = React.useState(false)
-  const [cardId, setCardId] = React.useState('')
-
-  const [popupsLoader, setPopupsLoader] = React.useState(defaultPopupsLoader)
-
   const [selectedCard, setSelectedCard] = React.useState({ isOpen: false })
-  const [currentUser, setCurrentUser] = React.useState({})
-  const [cards, setCards] = React.useState([])
+
+  // Состояние загрузчиков
+  const [popupsLoader, setPopupsLoader] = React.useState(defaultPopupsLoader)
   const [isLoading, setIsLoading] = React.useState(true)
 
+  // Данные пользовотеля и карточек
+  const [currentUser, setCurrentUser] = React.useState({})
+  const [cards, setCards] = React.useState([])
+
+  // ID Карточки
+  const [cardId, setCardId] = React.useState('')
+
+  // Запрос данных пользователя и карточек с сервера
   React.useEffect(() => {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then(res => {
@@ -46,6 +51,7 @@ function App() {
       .catch(err => console.log("Не удалось загрузить страницу:", err))
   }, [])
 
+  // Управление состоянием попапов
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true)
   }
@@ -71,6 +77,7 @@ function App() {
     setSelectedCard({ isOpen: false })
   }
 
+  // Открыть большую карточку
   function handleCardClick(card) {
     setSelectedCard({
       isOpen: true,
@@ -78,6 +85,7 @@ function App() {
     })
   }
 
+  // Обновить данные пользователя
   function handleUpdateUser(data) {
     setPopupsLoader({
       ...popupsLoader,
@@ -93,6 +101,7 @@ function App() {
       .finally(() => setPopupsLoader(defaultPopupsLoader))
   }
 
+  // Обновить аватар пользователя
   function handleUpdateAvatar(data) {
     setPopupsLoader({
       ...popupsLoader,
@@ -108,6 +117,7 @@ function App() {
       .finally(() => setPopupsLoader(defaultPopupsLoader))
   }
 
+  // Управление лайком карточки
   function handleCardLike(card) {
     const isLiked = card.likes.some(i => i._id === currentUser._id);
 
@@ -118,9 +128,7 @@ function App() {
       .catch(err => console.log("Не удалось изменить лайк:", err))
   }
 
-
-  //---------------------------------
-
+  // Управление удалением карточки
   function handleCardDelete() {
     setPopupsLoader({
       ...popupsLoader,
@@ -136,8 +144,7 @@ function App() {
       .finally(() => setPopupsLoader(defaultPopupsLoader))
   }
 
-  //---------------------------------
-
+  // Управление добовлением карточки
   function handleAddPlaceSubmit(data) {
     setPopupsLoader({
       ...popupsLoader,

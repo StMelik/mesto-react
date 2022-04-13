@@ -1,12 +1,13 @@
-import React from "react";
+import { useContext } from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function Card(props) {
+    const { card, onCardClick, onCardLike, onCardDelete } = props
 
-    const currentUser = React.useContext(CurrentUserContext)
+    const currentUser = useContext(CurrentUserContext)
 
-    const isOwn = props.card.owner._id === currentUser._id;
-    const isLiked = props.card.likes.some(i => i._id === currentUser._id)
+    const isOwn = card.owner._id === currentUser._id;
+    const isLiked = card.likes.some(i => i._id === currentUser._id)
 
     const cardDeleteButtonClassName = (
         `element__delete 
@@ -23,26 +24,41 @@ function Card(props) {
     );
 
     function handleClick() {
-        props.onCardClick(props.card);
+        onCardClick(card);
     }
 
     function handleLikeClick() {
-        props.onCardLike(props.card)
+        onCardLike(card)
     }
 
     function handleDeleteClick() {
-        props.onCardDelete(props.card)
+        onCardDelete(card)
     }
 
     return (
         <article className="elements__element element">
-            <button className={cardDeleteButtonClassName} type="button" aria-label="Удалить" onClick={handleDeleteClick}></button>
-            <img className="element__image" src={props.card.link} alt={props.card.name} onClick={handleClick} />
+            <button
+                className={cardDeleteButtonClassName}
+                type="button"
+                aria-label="Удалить"
+                onClick={handleDeleteClick}
+            ></button>
+            <img
+                className="element__image"
+                src={card.link}
+                alt={card.name}
+                onClick={handleClick}
+            />
             <div className="element__bottom">
-                <h2 className="element__title">{props.card.name}</h2>
+                <h2 className="element__title">{card.name}</h2>
                 <div className="element__heart-box">
-                    <button className={cardLikeButtonClassName} type="button" aria-label="Понравилось" onClick={handleLikeClick}></button>
-                    <p className="element__heart-value">{props.card.likes.length}</p>
+                    <button
+                        className={cardLikeButtonClassName}
+                        type="button"
+                        aria-label="Понравилось"
+                        onClick={handleLikeClick}
+                    ></button>
+                    <p className="element__heart-value">{card.likes.length}</p>
                 </div>
             </div>
         </article>
