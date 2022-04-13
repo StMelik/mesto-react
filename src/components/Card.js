@@ -35,7 +35,7 @@ function Card(props) {
     }
 
     return (
-        <article className="elements__element element" key={props.card._id}>
+        <article className="elements__element element">
             <button className={cardDeleteButtonClassName} type="button" aria-label="Удалить" onClick={handleDeleteClick}></button>
             <img className="element__image" src={props.card.link} alt={props.card.name} onClick={handleClick} />
             <div className="element__bottom">

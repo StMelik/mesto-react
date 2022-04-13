@@ -99,6 +99,7 @@ function App() {
   }
 
   function handleAddPlaceSubmit(data) {
+    console.log(data);
     api.addCard(data)
       .then(newCard => {
         setCards([newCard, ...cards]);

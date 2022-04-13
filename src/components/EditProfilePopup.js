@@ -24,6 +24,14 @@ function EditProfilePopup(props) {
         })
     }
 
+    function handleChangeName(evt) {
+        setName(evt.target.value)
+    }
+
+    function handleChangeDescription(evt) {
+        setDescription(evt.target.value)
+    }
+
     return (
         <PopupWithForm
             name="edit"
@@ -38,7 +46,7 @@ function EditProfilePopup(props) {
                     required minLength="2" maxLength="40" autoComplete="off"
                     placeholder="Ваше имя"
                     value={name}
-                    onChange={(e) => setName(e.target.value)} />
+                    onChange={handleChangeName} />
                 <span className="popup__input-error name-input-error"></span>
             </label>
             <label className="popup__form-label">
@@ -46,7 +54,7 @@ function EditProfilePopup(props) {
                     name="about" required minLength="2" maxLength="200" autoComplete="off"
                     placeholder="О себе"
                     value={description}
-                    onChange={(e) => setDescription(e.target.value)} />
+                    onChange={handleChangeDescription} />
                 <span className="popup__input-error about-input-error"></span>
             </label>
         </PopupWithForm>

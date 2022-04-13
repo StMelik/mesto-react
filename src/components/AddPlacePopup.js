@@ -15,6 +15,14 @@ function AddPlacePopup(props) {
         })
     }
 
+    function handleChangeName(evt) {
+        setName(evt.target.value)
+    }
+
+    function handleChangeLink(evt) {
+        setLink(evt.target.value)
+    }
+
     return (
         <PopupWithForm
             name="add"
@@ -28,13 +36,13 @@ function AddPlacePopup(props) {
                 <input className="popup__input popup__input_value_name" id="title-input" type="text" name="name"
                     placeholder="Название" required minLength="2" maxLength="30" autoComplete="off"
                     value={name}
-                    onChange={e => setName(e.target.value)} />
+                    onChange={handleChangeName} />
                 <span className="popup__input-error title-input-error"></span>
             </label>
             <label className="popup__form-label">
                 <input className="popup__input popup__input_value_link" id="link-input" type="url" name="link"
                     placeholder="Ссылка на картинку" required value={link}
-                    onChange={e => setLink(e.target.value)} />
+                    onChange={handleChangeLink} />
                 <span className="popup__input-error link-input-error"></span>
             </label>
         </PopupWithForm>
