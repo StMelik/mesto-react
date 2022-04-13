@@ -1,8 +1,13 @@
+import Popup from "./Popup"
+
 function ImagePopup(props) {
     const { card, onClose } = props
 
     return (
-        <div className={`popup popup_image ${card.isOpen && 'popup_opened'}`}>
+        <Popup
+            onClose={onClose}
+            isOpen={card.isOpen}
+        >
             <div className="popup__container-img">
                 <button
                     className="popup__close"
@@ -17,7 +22,7 @@ function ImagePopup(props) {
                 />
                 <p className="popup__title-img">{card && card.name}</p>
             </div>
-        </div>
+        </Popup>
     )
 }
 
