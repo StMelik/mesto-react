@@ -1,4 +1,4 @@
-import React from 'react'
+import { useState, useEffect } from 'react'
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
@@ -14,39 +14,32 @@ import Preloader from './Preloader';
 
 const api = new Api(optionsApi)
 
-const defaultPopupsLoader = {
-  editProfile: false,
-  editAvatar: false,
-  addCard: false,
-  deleteCard: false
-}
-
 function App() {
   // Состояние попапов
-  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false)
-  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false)
-  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false)
-  const [isComfirmDeletePopupOpen, setIsComfirmDeletePopupOpen] = React.useState(false)
-  const [selectedCard, setSelectedCard] = React.useState({ isOpen: false })
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false)
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false)
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false)
+  const [isComfirmDeletePopupOpen, setIsComfirmDeletePopupOpen] = useState(false)
+  const [selectedCard, setSelectedCard] = useState({ isOpen: false })
 
   // Состояние загрузчиков
-  const [popupsLoader, setPopupsLoader] = React.useState(defaultPopupsLoader)
-  const [isLoading, setIsLoading] = React.useState(true)
+  const [isLoadingButton, setIsLoadingButton] = useState(false)
+  const [isPreloader, setIsPreloader] = useState(true)
 
   // Данные пользовотеля и карточек
-  const [currentUser, setCurrentUser] = React.useState({})
-  const [cards, setCards] = React.useState([])
+  const [currentUser, setCurrentUser] = useState({})
+  const [cards, setCards] = useState([])
 
   // ID Карточки
-  const [cardId, setCardId] = React.useState('')
+  const [cardId, setCardId] = useState('')
 
   // Запрос данных пользователя и карточек с сервера
-  React.useEffect(() => {
+  useEffect(() => {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then(res => {
         setCurrentUser(res[0])
         setCards(res[1])
-        setIsLoading(false)
+        setIsPreloader(false)
       })
       .catch(err => console.log("Не удалось загрузить страницу:", err))
   }, [])
@@ -87,10 +80,7 @@ function App() {
 
   // Обновить данные пользователя
   function handleUpdateUser(data) {
-    setPopupsLoader({
-      ...popupsLoader,
-      editProfile: true
-    });
+    setIsLoadingButton(true)
 
     api.editUserInfo(data)
       .then(res => {
@@ -98,15 +88,12 @@ function App() {
         closeAllPopups()
       })
       .catch(err => console.log("Не удалось изменить данные профиля:", err))
-      .finally(() => setPopupsLoader(defaultPopupsLoader))
+      .finally(() => setIsLoadingButton(false))
   }
 
   // Обновить аватар пользователя
   function handleUpdateAvatar(data) {
-    setPopupsLoader({
-      ...popupsLoader,
-      editAvatar: true
-    });
+    setIsLoadingButton(true)
 
     api.editUserAvatar(data)
       .then(res => {
@@ -114,7 +101,7 @@ function App() {
         closeAllPopups()
       })
       .catch(err => console.log("Не удалось сменить аватар:", err))
-      .finally(() => setPopupsLoader(defaultPopupsLoader))
+      .finally(() => setIsLoadingButton(false))
   }
 
   // Управление лайком карточки
@@ -130,10 +117,7 @@ function App() {
 
   // Управление удалением карточки
   function handleCardDelete() {
-    setPopupsLoader({
-      ...popupsLoader,
-      deleteCard: true
-    });
+    setIsLoadingButton(true)
 
     api.deleteCard(cardId)
       .then(() => {
@@ -141,15 +125,12 @@ function App() {
         closeAllPopups()
       })
       .catch(err => console.log("Не удалось удалить карточку:", err))
-      .finally(() => setPopupsLoader(defaultPopupsLoader))
+      .finally(() => setIsLoadingButton(false))
   }
 
   // Управление добовлением карточки
   function handleAddPlaceSubmit(data) {
-    setPopupsLoader({
-      ...popupsLoader,
-      addCard: true
-    });
+    setIsLoadingButton(true)
 
     api.addCard(data)
       .then(newCard => {
@@ -157,14 +138,14 @@ function App() {
         closeAllPopups()
       })
       .catch(err => console.log("Не удалось добавить карточку:", err))
-      .finally(() => setPopupsLoader(defaultPopupsLoader))
+      .finally(() => setIsLoadingButton(false))
   }
 
   return (
     <div className="page__content">
       <CurrentUserContext.Provider value={currentUser}>
         <Header />
-        {isLoading ?
+        {isPreloader ?
           <Preloader /> :
           <Main
             onEditProfile={handleEditProfileClick}
@@ -183,7 +164,7 @@ function App() {
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser}
-          loader={popupsLoader.editProfile}
+          loader={isLoadingButton}
         />
 
         {/* Аватар */}
@@ -191,7 +172,7 @@ function App() {
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
-          loader={popupsLoader.editAvatar}
+          loader={isLoadingButton}
         />
 
         {/* Новое место */}
@@ -199,7 +180,7 @@ function App() {
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
           onAddPlace={handleAddPlaceSubmit}
-          loader={popupsLoader.addCard}
+          loader={isLoadingButton}
         />
 
         {/* Подтверждение удаления */}
@@ -207,7 +188,7 @@ function App() {
           isOpen={isComfirmDeletePopupOpen}
           onClose={closeAllPopups}
           onDelete={handleCardDelete}
-          loader={popupsLoader.deleteCard}
+          loader={isLoadingButton}
         />
 
         {/* Большая картинка */}

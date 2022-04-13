@@ -1,5 +1,6 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import PopupWithForm from "./PopupWithForm"
+import Popup from "./Popup"
 
 function AddPlacePopup(props) {
     const { loader, isOpen, onClose, onAddPlace } = props
@@ -13,48 +14,55 @@ function AddPlacePopup(props) {
             name,
             link
         })
-        setName('')
-        setLink('')
     }
 
+    useEffect(() => {
+        setName('')
+        setLink('')
+    }, [isOpen])
+
     return (
-        <PopupWithForm
-            name="add"
-            title="Новое место"
-            buttonText={loader ? "Сохранение..." : "Создать"}
-            isOpen={isOpen}
+        <Popup
             onClose={onClose}
-            onSubmit={handleSubmit}
+            isOpen={isOpen}
         >
-            <label className="popup__form-label">
-                <input
-                    className="popup__input popup__input_value_name"
-                    id="title-input" type="text"
-                    name="name"
-                    placeholder="Название"
-                    required
-                    minLength="2"
-                    maxLength="30"
-                    autoComplete="off"
-                    value={name}
-                    onChange={e => setName(e.target.value)}
-                />
-                <span className="popup__input-error title-input-error"></span>
-            </label>
-            <label className="popup__form-label">
-                <input
-                    className="popup__input popup__input_value_link"
-                    id="link-input"
-                    type="url"
-                    name="link"
-                    placeholder="Ссылка на картинку"
-                    required
-                    value={link}
-                    onChange={e => setLink(e.target.value)}
-                />
-                <span className="popup__input-error link-input-error"></span>
-            </label>
-        </PopupWithForm>
+            <PopupWithForm
+                name="add"
+                title="Новое место"
+                buttonText={loader ? "Сохранение..." : "Создать"}
+                onClose={onClose}
+                onSubmit={handleSubmit}
+            >
+                <label className="popup__form-label">
+                    <input
+                        className="popup__input popup__input_value_name"
+                        id="title-input" type="text"
+                        name="name"
+                        placeholder="Название"
+                        required
+                        minLength="2"
+                        maxLength="30"
+                        autoComplete="off"
+                        value={name}
+                        onChange={e => setName(e.target.value)}
+                    />
+                    <span className="popup__input-error title-input-error"></span>
+                </label>
+                <label className="popup__form-label">
+                    <input
+                        className="popup__input popup__input_value_link"
+                        id="link-input"
+                        type="url"
+                        name="link"
+                        placeholder="Ссылка на картинку"
+                        required
+                        value={link}
+                        onChange={e => setLink(e.target.value)}
+                    />
+                    <span className="popup__input-error link-input-error"></span>
+                </label>
+            </PopupWithForm>
+        </Popup>
     )
 }
 
