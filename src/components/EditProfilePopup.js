@@ -8,8 +8,8 @@ function EditProfilePopup(props) {
     const currentUser = useContext(CurrentUserContext)
 
     useEffect(() => {
-        setName(currentUser.name);
-        setDescription(currentUser.about);
+        setName(currentUser.name || '');
+        setDescription(currentUser.about || '');
     }, [currentUser])
 
     const [name, setName] = useState('')
@@ -21,8 +21,6 @@ function EditProfilePopup(props) {
             name,
             about: description
         })
-        setName('')
-        setDescription('')
     }
 
     return (
